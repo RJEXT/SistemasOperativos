@@ -11,23 +11,17 @@ int main(int argc, char *argv[]) {
   char **vector;
   pid_t pid;
 
-  while (1) {
-    printf("$ ");
-    leer_de_teclado(BUFSIZ,comando);
-    if(strcmp(comando,"sali") == 0 ) {
-      return 0;
-    } else if (strcmp(comando, "exit") == 0) {
-      return 1;
-    }
-    pid = fork();
-    if (pid == 0) {
-      vector = de_cadena_a_vector(comando);
-      execvp(vector[0],vector);
-    } else if (pid > 0) {
-      wait(NULL);
-    } else {
-      printf("Error en la ejecución del 'fork'\n");
-    }
+  printf("$ ");
+  leer_de_teclado(BUFSIZ,comando);
+
+  pid = fork();
+  if (pid == 0) {
+    vector = de_cadena_a_vector(comando);
+    execvp(vector[0],vector);
+  } else if (pid > 0) {
+    wait(NULL);
+  } else {
+    printf("Error en la ejecución del 'fork'\n");
   }
 
   return 0;
